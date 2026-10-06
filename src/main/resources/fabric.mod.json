@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "deaf-bro",
+	"version": "${version}",
+	"name": "Deaf Bro",
+	"description": "Tiny mod to toggle volume level",
+	"authors": [
+		"Egor4787"
+	],
+	"contact": {
+		"homepage": "https://github.com/Egor4787/deaf-bro",
+		"sources": "https://github.com/Egor4787/deaf-bro"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/deaf-bro/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["mc.egor4787.deafbro.client.DeafBro"]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
