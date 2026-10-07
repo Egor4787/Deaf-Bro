@@ -5,7 +5,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 
 public class DeafBro implements ClientModInitializer {
 	private static final KeyMapping DEAF_TOGGLE = KeyMappingHelper.registerKeyMapping(
@@ -58,8 +60,17 @@ public class DeafBro implements ClientModInitializer {
 								.set((double) volume);
 
 						DeafBroConfig.save();
+
+						client.getSoundManager().play(
+								SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)
+						);
+
 						client.gui.hud.setOverlayMessage(
-								Component.literal("Volume: " + DeafBroConfig.presets[nextPreset] + "%"),
+								Component.translatable(
+										"options.percent_value",
+										Component.translatable("soundCategory." + DeafBroConfig.soundSource.getName()),
+										DeafBroConfig.presets[nextPreset]
+								),
 								false
 						);
 						break;

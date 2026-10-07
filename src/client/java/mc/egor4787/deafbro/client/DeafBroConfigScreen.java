@@ -7,8 +7,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 
-import java.util.Locale;
-
 public class DeafBroConfigScreen extends Screen {
     private final Screen parent;
 
@@ -28,7 +26,7 @@ public class DeafBroConfigScreen extends Screen {
                                 45,
                                 200,
                                 20,
-                                Component.literal("Mod"),
+                                Component.translatable("options.key.toggle"),
                                 (_, value) -> {
                                     DeafBroConfig.enabled = value;
                                     DeafBroConfig.save();
@@ -117,7 +115,7 @@ public class DeafBroConfigScreen extends Screen {
 
         addRenderableWidget(
                 Button.builder(
-                                Component.literal("Done"),
+                                Component.translatable("gui.done"),
                                 _ -> onClose()
                         )
                         .bounds(centerX + 5, this.height - 40, 100, 20)
@@ -126,12 +124,7 @@ public class DeafBroConfigScreen extends Screen {
     }
 
     private static Component formatSource(SoundSource source) {
-        String name = source.name().toLowerCase(Locale.ROOT);
-
-        String formatted = Character.toUpperCase(name.charAt(0))
-                + name.substring(1);
-
-        return Component.literal(formatted);
+        return Component.translatable("soundCategory." + source.getName());
     }
 
     @Override
