@@ -9,7 +9,8 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/deaf-bro",
-		"sources": "https://github.com/Egor4787/deaf-bro"
+		"sources": "https://github.com/Egor4787/deaf-bro",
+		"issues": "https://github.com/Egor4787/deaf-bro/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/deaf-bro/icon.png",
