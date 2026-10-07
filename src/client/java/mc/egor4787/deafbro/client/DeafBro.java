@@ -5,7 +5,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.sounds.SoundSource;
 
 public class DeafBro implements ClientModInitializer {
 	private static final KeyMapping DEAF_TOGGLE = KeyMappingHelper.registerKeyMapping(
@@ -17,21 +16,28 @@ public class DeafBro implements ClientModInitializer {
 			)
 	);
 
-	private double previousVolume = 0.5;
-
 	@Override
 	public void onInitializeClient() {
+		DeafBroConfig.load();
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			if (!DeafBroConfig.enabled) {
+				return;
+			}
+
 			while (DEAF_TOGGLE.consumeClick()) {
 				float currentVolume =
-						client.options.getSoundSourceVolume(SoundSource.MASTER);
+						client.options.getSoundSourceVolume(DeafBroConfig.source);
 
                 if (currentVolume > 0.0f) {
-					previousVolume = currentVolume;
+					DeafBroConfig.previousVolume = currentVolume;
 
-					client.options.getSoundSourceOptionInstance(SoundSource.MASTER).set(0.0);
+					client.options.getSoundSourceOptionInstance(DeafBroConfig.source).set(0.0);
 				} else {
-					client.options.getSoundSourceOptionInstance(SoundSource.MASTER).set(previousVolume);
+					if (DeafBroConfig.previousVolume <= 0.0f) {
+						DeafBroConfig.previousVolume = 0.5f;
+					}
+					client.options.getSoundSourceOptionInstance(DeafBroConfig.source).set((double) DeafBroConfig.previousVolume);
 				}
 			}
 		});

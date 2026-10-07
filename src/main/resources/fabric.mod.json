@@ -15,7 +15,8 @@
 	"icon": "assets/deaf-bro/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"client": ["mc.egor4787.deafbro.client.DeafBro"]
+		"client": ["mc.egor4787.deafbro.client.DeafBro"],
+		"modmenu": ["mc.egor4787.deafbro.client.DeafBroModMenu"]
 	},
 	"depends": {
 		"fabricloader": ">=0.19.5",
