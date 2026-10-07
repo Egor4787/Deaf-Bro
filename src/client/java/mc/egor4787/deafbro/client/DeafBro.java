@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 public class DeafBro implements ClientModInitializer {
 	private static final KeyMapping DEAF_TOGGLE = KeyMappingHelper.registerKeyMapping(
 			new KeyMapping(
-					"Deaf Toggle",
+					"Deaf Bro",
 					InputConstants.Type.KEYSYM,
 					InputConstants.KEY_MINUS,
 					KeyMapping.Category.MISC
