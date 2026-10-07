@@ -36,14 +36,19 @@ public class DeafBroConfigScreen extends Screen {
                         )
         );
 
+        int presetWidth = 44;
+        int presetGap = 6;
+        int totalWidth = presetWidth * 4 + presetGap * 3;
+        int startX = centerX - totalWidth / 2;
+
         for (int i = 0; i < 4; i++) {
             int presetIndex = i;
 
             EditBox preset = new EditBox(
                     this.font,
-                    centerX - 100 + i * 50,
-                    80,
-                    45,
+                    startX + i * (presetWidth + presetGap),
+                    72,
+                    presetWidth,
                     20,
                     Component.literal("Preset " + (i + 1))
             );
@@ -82,7 +87,7 @@ public class DeafBroConfigScreen extends Screen {
                         .withValues(SoundSource.values())
                         .create(
                                 centerX - 100,
-                                115,
+                                99,
                                 200,
                                 20,
                                 Component.literal("Source"),
@@ -95,10 +100,27 @@ public class DeafBroConfigScreen extends Screen {
 
         addRenderableWidget(
                 Button.builder(
+                                Component.literal("Defaults"),
+                                _ -> {
+                                    DeafBroConfig.presets = new int[]{0, 25, 50, 100};
+                                    DeafBroConfig.currentPreset = -1;
+                                    DeafBroConfig.save();
+
+                                    this.minecraft.gui.setScreen(
+                                            new DeafBroConfigScreen(parent)
+                                    );
+                                }
+                        )
+                        .bounds(centerX - 105, this.height - 40, 100, 20)
+                        .build()
+        );
+
+        addRenderableWidget(
+                Button.builder(
                                 Component.literal("Done"),
                                 _ -> onClose()
                         )
-                        .bounds(centerX - 100, this.height - 40, 200, 20)
+                        .bounds(centerX + 5, this.height - 40, 100, 20)
                         .build()
         );
     }
