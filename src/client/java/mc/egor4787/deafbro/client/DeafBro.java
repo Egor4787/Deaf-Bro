@@ -58,9 +58,10 @@ public class DeafBro implements ClientModInitializer {
 								.set((double) volume);
 
 						DeafBroConfig.save();
-						// Will be changed to a popup later
-                        assert client.player != null;
-                        client.player.sendSystemMessage(Component.literal("Volume: "+ volume));
+						client.gui.hud.setOverlayMessage(
+								Component.literal("Volume: " + DeafBroConfig.presets[nextPreset] + "%"),
+								false
+						);
 						break;
 					}
 				}
