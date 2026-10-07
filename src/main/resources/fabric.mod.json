@@ -3,7 +3,7 @@
 	"id": "deaf-bro",
 	"version": "${version}",
 	"name": "Deaf Bro",
-	"description": "Tiny mod to toggle volume level",
+	"description": "Quickly switch between volume level presets",
 	"authors": [
 		"Egor4787"
 	],
