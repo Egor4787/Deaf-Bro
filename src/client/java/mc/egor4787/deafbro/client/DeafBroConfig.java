@@ -12,11 +12,14 @@ import java.util.Properties;
 
 public class DeafBroConfig {
     public static boolean enabled = true;
-    public static SoundSource source = SoundSource.MASTER;
+    public static int currentPreset = -1;
+    public static SoundSource soundSource = SoundSource.MASTER;
 
-    public static float previousVolume = 0.5f;
+    public static int[] presets = {0, 25, 50, 100};
 
-    private static final Path FILE = FabricLoader.getInstance().getConfigDir().resolve("deafbro.properties");
+    private static final Path FILE = FabricLoader.getInstance()
+            .getConfigDir()
+            .resolve("deafbro.properties");
 
     public static void load() {
         if (!Files.exists(FILE)) {
@@ -31,9 +34,25 @@ public class DeafBroConfig {
             enabled = Boolean.parseBoolean(properties.getProperty("enabled", "true"));
 
             try {
-                source = SoundSource.valueOf(properties.getProperty("source", SoundSource.MASTER.name()));
+                currentPreset = Integer.parseInt(properties.getProperty("currentPreset", "-1"));
+            } catch (NumberFormatException ignored) {
+                currentPreset = -1;
+            }
+
+            for (int i = 0; i < presets.length; i++) {
+                try {
+                    int value = Integer.parseInt(properties.getProperty("preset" + i, Integer.toString(presets[i])));
+
+                    if (value >= -1 && value <= 100) {
+                        presets[i] = value;
+                    }
+                } catch (NumberFormatException ignored) {}
+            }
+
+            try {
+                soundSource = SoundSource.valueOf(properties.getProperty("source", SoundSource.MASTER.name()));
             } catch (IllegalArgumentException ignored) {
-                source = SoundSource.MASTER;
+                soundSource = SoundSource.MASTER;
             }
         } catch (IOException ignored) {}
     }
@@ -43,7 +62,13 @@ public class DeafBroConfig {
 
         properties.setProperty("enabled", Boolean.toString(enabled));
 
-        properties.setProperty("source", source.name());
+        properties.setProperty("currentPreset", Integer.toString(currentPreset));
+
+        for (int i = 0; i < presets.length; i++) {
+            properties.setProperty("preset" + i, Integer.toString(presets[i]));
+        }
+
+        properties.setProperty("source", soundSource.name());
 
         try {
             Files.createDirectories(FILE.getParent());

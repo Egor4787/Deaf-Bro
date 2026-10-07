@@ -2,6 +2,7 @@ package mc.egor4787.deafbro.client;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
@@ -24,7 +25,7 @@ public class DeafBroConfigScreen extends Screen {
                 CycleButton.onOffBuilder(DeafBroConfig.enabled)
                         .create(
                                 centerX - 100,
-                                60,
+                                45,
                                 200,
                                 20,
                                 Component.literal("Mod"),
@@ -35,20 +36,58 @@ public class DeafBroConfigScreen extends Screen {
                         )
         );
 
+        for (int i = 0; i < 4; i++) {
+            int presetIndex = i;
+
+            EditBox preset = new EditBox(
+                    this.font,
+                    centerX - 100 + i * 50,
+                    80,
+                    45,
+                    20,
+                    Component.literal("Preset " + (i + 1))
+            );
+
+            preset.setMaxLength(3);
+            preset.setValue(
+                    DeafBroConfig.presets[i] == -1
+                            ? ""
+                            : Integer.toString(DeafBroConfig.presets[i]));
+
+            preset.setResponder(value -> {
+                if (value.isEmpty()) {
+                    DeafBroConfig.presets[presetIndex] = -1;
+                    DeafBroConfig.save();
+                    return;
+                }
+
+                if (value.matches("\\d{1,3}")) {
+                    int number = Integer.parseInt(value);
+
+                    if (number <= 100) {
+                        DeafBroConfig.presets[presetIndex] = number;
+                        DeafBroConfig.save();
+                    }
+                }
+            });
+
+            addRenderableWidget(preset);
+        }
+
         addRenderableWidget(
                 CycleButton.builder(
                                 DeafBroConfigScreen::formatSource,
-                                DeafBroConfig.source
+                                DeafBroConfig.soundSource
                         )
                         .withValues(SoundSource.values())
                         .create(
                                 centerX - 100,
-                                90,
+                                115,
                                 200,
                                 20,
                                 Component.literal("Source"),
                                 (_, value) -> {
-                                    DeafBroConfig.source = value;
+                                    DeafBroConfig.soundSource = value;
                                     DeafBroConfig.save();
                                 }
                         )
