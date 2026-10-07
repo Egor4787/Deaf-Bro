@@ -28,7 +28,7 @@ public class DeafBroConfigScreen extends Screen {
                                 200,
                                 20,
                                 Component.literal("Mod"),
-                                (button, value) -> {
+                                (_, value) -> {
                                     DeafBroConfig.enabled = value;
                                     DeafBroConfig.save();
                                 }
@@ -36,7 +36,7 @@ public class DeafBroConfigScreen extends Screen {
         );
 
         addRenderableWidget(
-                CycleButton.<SoundSource>builder(
+                CycleButton.builder(
                                 DeafBroConfigScreen::formatSource,
                                 DeafBroConfig.source
                         )
@@ -47,7 +47,7 @@ public class DeafBroConfigScreen extends Screen {
                                 200,
                                 20,
                                 Component.literal("Source"),
-                                (button, value) -> {
+                                (_, value) -> {
                                     DeafBroConfig.source = value;
                                     DeafBroConfig.save();
                                 }
@@ -57,7 +57,7 @@ public class DeafBroConfigScreen extends Screen {
         addRenderableWidget(
                 Button.builder(
                                 Component.literal("Done"),
-                                button -> onClose()
+                                _ -> onClose()
                         )
                         .bounds(centerX - 100, this.height - 40, 200, 20)
                         .build()
