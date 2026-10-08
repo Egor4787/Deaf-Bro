@@ -61,18 +61,22 @@ public class DeafBro implements ClientModInitializer {
 
 						DeafBroConfig.save();
 
-						client.getSoundManager().play(
-								SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)
-						);
+						if (DeafBroConfig.beep) {
+							client.getSoundManager().play(
+									SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)
+							);
+						}
 
-						client.gui.hud.setOverlayMessage(
-								Component.translatable(
-										"options.percent_value",
-										Component.translatable("soundCategory." + DeafBroConfig.soundSource.getName()),
-										DeafBroConfig.presets[nextPreset]
-								),
-								false
-						);
+						if (DeafBroConfig.overlay) {
+							client.gui.hud.setOverlayMessage(
+									Component.translatable(
+											"options.percent_value",
+											Component.translatable("soundCategory." + DeafBroConfig.soundSource.getName()),
+											DeafBroConfig.presets[nextPreset]
+									),
+									false
+							);
+						}
 						break;
 					}
 				}

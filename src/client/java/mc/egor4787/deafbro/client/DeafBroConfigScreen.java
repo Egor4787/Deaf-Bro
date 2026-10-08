@@ -85,7 +85,7 @@ public class DeafBroConfigScreen extends Screen {
                         .withValues(SoundSource.values())
                         .create(
                                 centerX - 100,
-                                99,
+                                100,
                                 200,
                                 20,
                                 Component.literal("Source"),
@@ -97,11 +97,44 @@ public class DeafBroConfigScreen extends Screen {
         );
 
         addRenderableWidget(
+                CycleButton.onOffBuilder(DeafBroConfig.overlay)
+                        .create(
+                                centerX - 100,
+                                130,
+                                98,
+                                20,
+                                Component.literal("Overlay"),
+                                (_, value) -> {
+                                    DeafBroConfig.overlay = value;
+                                    DeafBroConfig.save();
+                                }
+                        )
+        );
+
+        addRenderableWidget(
+                CycleButton.onOffBuilder(DeafBroConfig.beep)
+                        .create(
+                                centerX + 2,
+                                130,
+                                98,
+                                20,
+                                Component.literal("Beep"),
+                                (_, value) -> {
+                                    DeafBroConfig.beep = value;
+                                    DeafBroConfig.save();
+                                }
+                        )
+        );
+
+        addRenderableWidget(
                 Button.builder(
                                 Component.literal("Defaults"),
                                 _ -> {
                                     DeafBroConfig.presets = new int[]{0, 25, 50, 100};
                                     DeafBroConfig.currentPreset = -1;
+                                    DeafBroConfig.soundSource = SoundSource.MASTER;
+                                    DeafBroConfig.overlay = true;
+                                    DeafBroConfig.beep = true;
                                     DeafBroConfig.save();
 
                                     this.minecraft.gui.setScreen(
@@ -109,7 +142,7 @@ public class DeafBroConfigScreen extends Screen {
                                     );
                                 }
                         )
-                        .bounds(centerX - 105, this.height - 40, 100, 20)
+                        .bounds(centerX - 100, this.height - 40, 98, 20)
                         .build()
         );
 
@@ -118,7 +151,7 @@ public class DeafBroConfigScreen extends Screen {
                                 Component.translatable("gui.done"),
                                 _ -> onClose()
                         )
-                        .bounds(centerX + 5, this.height - 40, 100, 20)
+                        .bounds(centerX + 2, this.height - 40, 98, 20)
                         .build()
         );
     }

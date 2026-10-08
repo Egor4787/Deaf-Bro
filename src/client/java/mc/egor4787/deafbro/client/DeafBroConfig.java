@@ -14,6 +14,8 @@ public class DeafBroConfig {
     public static boolean enabled = true;
     public static int currentPreset = -1;
     public static SoundSource soundSource = SoundSource.MASTER;
+    public static boolean overlay = true;
+    public static boolean beep = true;
 
     public static int[] presets = {0, 25, 50, 100};
 
@@ -54,6 +56,9 @@ public class DeafBroConfig {
             } catch (IllegalArgumentException ignored) {
                 soundSource = SoundSource.MASTER;
             }
+
+            overlay = Boolean.parseBoolean(properties.getProperty("overlay", "true"));
+            beep = Boolean.parseBoolean(properties.getProperty("beep", "true"));
         } catch (IOException ignored) {}
     }
 
@@ -69,6 +74,9 @@ public class DeafBroConfig {
         }
 
         properties.setProperty("source", soundSource.name());
+
+        properties.setProperty("overlay", Boolean.toString(overlay));
+        properties.setProperty("beep", Boolean.toString(beep));
 
         try {
             Files.createDirectories(FILE.getParent());
